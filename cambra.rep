@@ -1,0 +1,10 @@
+//struct cam{
+    bool nord;
+    bool sud;
+    bool est;
+    bool oest;
+//};
+    //cam[4] 
+    //cam[0] nord
+    //cam[1] est
+    //
