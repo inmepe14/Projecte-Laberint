@@ -5,7 +5,7 @@ using namespace std;
  // Constructora d'un laberint buit sense excavar (sense cap porta oberta)
   // de la mida indicada. Totes les cambres del laberint no tenen cap porta.
   // Es produeix un error si el número de files o de columnes del laberint és 0.
-   laberint::laberint(nat num_fil=5, nat num_col=5) throw(error){
+   laberint::laberint(nat num_fil, nat num_col) throw(error){
 
 
    }
@@ -21,7 +21,7 @@ using namespace std;
   laberint::laberint(const laberint & l) throw(error){
 
   }
-  laberint::laberint & operator=(const laberint & l) throw(error){
+  laberint & laberint::operator=(const laberint & l) throw(error){
 
   }
   laberint::~laberint() throw(){
