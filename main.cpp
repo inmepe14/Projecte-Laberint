@@ -42,9 +42,17 @@ int main(){
     cambra C;
     laberint l;
     pair<int,int> pos;
-    pos.first=6;
-    pos.second=7;
-    cout<<l(pos).porta_oberta(1)<<endl;
+    pos.first=1;
+    pos.second=2;
+    //cout<<l(pos).porta_oberta(1)<<endl;
+    print(l(pos));
+    /*pos.first=1;
+    pos.second=8;
+    l.obre_porta(1,pos);*/
+    l.print(cout);
+    /*print(l(pos));
+    pos.second+=1;
+    print(l(pos));*/
     //cambra C1;
     /*
     print(C);
