@@ -1,4 +1,5 @@
 #include "cambra.hpp"
+#include "laberint.hpp"
 #include <iostream>
 using namespace std;
 
@@ -39,8 +40,13 @@ void print(cambra c){
 int main(){
     
     cambra C;
-    cambra C1;
-    
+    laberint l;
+    pair<int,int> pos;
+    pos.first=6;
+    pos.second=7;
+    cout<<l(pos).porta_oberta(1)<<endl;
+    //cambra C1;
+    /*
     print(C);
     cout<<C.porta_oberta(1)<<endl;
     C.obre_porta(1);        //est i sud
@@ -50,6 +56,6 @@ int main(){
     //C1.obre_porta(3);
     //cout<<C.porta_oberta(1)<<endl;
     cout<<(C<C1)<<endl;
-    print(C);
+    print(C);*/
 
 }

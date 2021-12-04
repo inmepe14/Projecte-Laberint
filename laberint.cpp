@@ -6,7 +6,16 @@ using namespace std;
   // de la mida indicada. Totes les cambres del laberint no tenen cap porta.
   // Es produeix un error si el número de files o de columnes del laberint és 0.
    laberint::laberint(nat num_fil, nat num_col) throw(error){
-
+       if (num_fil == 0 || num_col == 0) {
+            throw error(FilsColsIncorrecte);
+        }
+        files = num_fil;
+        columnes = num_col;
+        matriu = new cambra*[files];
+        for (int i = 0; i < files; i++) {
+            matriu[i] = new cambra[columnes];
+        }
+    
 
    }
 
@@ -43,7 +52,14 @@ using namespace std;
   //   cambra c = l(pos);
   // Es produeix un error si la posició donada no existeix al laberint.
   cambra laberint::operator()(const posicio & pos) const throw(error){
+      if (pos.first < 0 || pos.second >= files) {
+            throw error(PosicioInexistent);
+        }
+        if (pos.first < 0 || pos.second >= columnes) {
+            throw error(PosicioInexistent);
+        }
 
+      return matriu[pos.first][pos.second];
   }
 
   // Obre la porta en la paret donada de la cambra que està especificada per pos.
