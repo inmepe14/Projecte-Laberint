@@ -99,13 +99,14 @@ using namespace std;
   // si tenen les mateixes portes obertes a les mateixes parets.
   bool cambra::operator==(const cambra & c) const throw(){
       bool ret;
-      ret=(nord==c.porta_oberta(0) and est==c.porta_oberta(1) and sud==c.porta_oberta(2) and est==c.porta_oberta(3));
+      ret=(nord==c.porta_oberta(0) and est==c.porta_oberta(1) and sud==c.porta_oberta(2) and oest==c.porta_oberta(3));
       return ret;
   }
   bool cambra::operator!=(const cambra & c) const throw(){
       bool ret;
-      ret=(nord!=c.porta_oberta(0) and est!=c.porta_oberta(1) and sud!=c.porta_oberta(2) and est!=c.porta_oberta(3));
-      return ret;
+      //ret=(nord!=c.porta_oberta(0) and est!=c.porta_oberta(1) and sud!=c.porta_oberta(2) and est!=c.porta_oberta(3));
+      ret=(*this==c);
+      return not ret;
   }
 
   // Operador "menor que" entre cambres. Una cambra és més petita que una
@@ -135,12 +136,12 @@ using namespace std;
       while(p!=4){
         if(c.porta_oberta(p)==1){
             b++;
-            cout<<c.porta_oberta(p);
+            //cout<<c.porta_oberta(p);
         }
         ++p;
       }
 
-        cout<<"PI: "<<b<<endl;  
+        //cout<<"PI: "<<b<<endl;  
       if(n<b){
           return true;
       }

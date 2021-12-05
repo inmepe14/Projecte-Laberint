@@ -46,9 +46,15 @@ int main(){
     pos.second=2;
     //cout<<l(pos).porta_oberta(1)<<endl;
     print(l(pos));
-    /*pos.first=1;
-    pos.second=8;
-    l.obre_porta(1,pos);*/
+    pos.first=1;
+    pos.second=3;
+    l.obre_porta(1,pos);
+    pos.first=1;
+    pos.second=2;
+    l.obre_porta(3,pos);
+    pos.first=1;
+    pos.second=4;
+    l.obre_porta(2,pos);
     l.print(cout);
     /*print(l(pos));
     pos.second+=1;

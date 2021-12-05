@@ -83,10 +83,10 @@ using namespace std;
   //   cambra c = l(pos);
   // Es produeix un error si la posició donada no existeix al laberint.
   cambra laberint::operator()(const posicio & pos) const throw(error){
-      if (pos.first < 0 || pos.second >= files) {
+      if (pos.first <= 0 || pos.first > files) {
             throw error(PosicioInexistent);
         }
-        if (pos.first < 0 || pos.second >= columnes) {
+        if (pos.second <= 0 || pos.second > columnes) {
             throw error(PosicioInexistent);
         }
 
@@ -98,39 +98,40 @@ using namespace std;
   // si la posició no existeix o no es pot obrir una porta en la direcció
   // indicada perquè dóna a l'exterior.
   void laberint::obre_porta(paret p, const posicio & pos) throw(error){
-        if (pos.first < 0 || pos.second >= files) {
+        if (pos.first <= 0 || pos.first > files) {
             throw error(PosicioInexistent);
         }
-        if (pos.first < 0 || pos.second >= columnes) {
+        if (pos.second <= 0 || pos.second > columnes) {
             throw error(PosicioInexistent);
         }
-        if(p==0 and pos.first==0){  //cas exterior pel nord
+        pair<int,int> poss = make_pair(pos.first-1, pos.second-1);
+        if(p==0 and poss.first==0){  //cas exterior pel nord
             throw error(PortaExterior);
         }
-        if(p==3 and pos.second==0){  //cas exterior pel oest
+        if(p==3 and poss.second==0){  //cas exterior pel oest
             throw error(PortaExterior);
         }
-        if(p==2 and pos.first==(files-1)){  //cas exterior pel sud
+        if(p==2 and poss.first==(files-1)){  //cas exterior pel sud
             throw error(PortaExterior);
         }
-        if(p==1 and pos.second==(columnes-1)){  //cas exterior pel oest
+        if(p==1 and poss.second==(columnes-1)){  //cas exterior pel oest
             throw error(PortaExterior);
         }
 
-        matriu[pos.first][pos.second].obre_porta(p);
+        matriu[poss.first][poss.second].obre_porta(p);
 
 
         if(p==0){       //si es nord, hem d'obrir la posició amb la fila-1 el sud
-            matriu[pos.first-1][pos.second].obre_porta(2);
+            matriu[poss.first-1][poss.second].obre_porta(2);
         }
         if(p==2){       //si es sud, hem d'obrir la posició amb la fila+1  el nord
-            matriu[pos.first+1][pos.second].obre_porta(0);
+            matriu[poss.first+1][poss.second].obre_porta(0);
         }
         if(p==1){       //si es est, hem d'obrir la posició amb la fila-1 el oest
-            matriu[pos.first][pos.second+1].obre_porta(3);
+            matriu[poss.first][poss.second+1].obre_porta(3);
         }
         if(p==3){       //si es oest, hem d'obrir la posició amb la fila-1 el est
-            matriu[pos.first][pos.second-1].obre_porta(1);
+            matriu[poss.first][poss.second-1].obre_porta(1);
         }
         
   }
@@ -139,26 +140,27 @@ using namespace std;
   // També tanca la porta corresponent en la cambra adjacent. Es produeix un error
   // si la posició no existeix.
   void laberint::tanca_porta(paret p, const posicio & pos) throw(error){
-        if (pos.first < 0 || pos.second >= files) {
+        
+        if (pos.first <= 0 || pos.first > files) {
             throw error(PosicioInexistent);
         }
-        if (pos.first < 0 || pos.second >= columnes) {
+        if (pos.second <= 0 || pos.second > columnes) {
             throw error(PosicioInexistent);
         }
-
-         matriu[pos.first][pos.second].tanca_porta(p);
+         pair<int,int> poss = make_pair(pos.first-1, pos.second-1);
+         matriu[poss.first][poss.second].tanca_porta(p);
 
         if(p==0){       //si es nord, hem de tancar la posició amb la fila-1 el sud
-            matriu[pos.first-1][pos.second].tanca_porta(2);
+            matriu[poss.first-1][poss.second].tanca_porta(2);
         }
         if(p==2){       //si es sud, hem de tancar la posició amb la fila+1  el nord
-            matriu[pos.first+1][pos.second].tanca_porta(0);
+            matriu[poss.first+1][poss.second].tanca_porta(0);
         }
         if(p==1){       //si es nord, hem de tancar la posició amb la fila-1 el sud
-            matriu[pos.first][pos.second+1].tanca_porta(3);
+            matriu[poss.first][poss.second+1].tanca_porta(3);
         }
         if(p==3){       //si es nord, hem de tancar la posició amb la fila-1 el sud
-            matriu[pos.first][pos.second-1].tanca_porta(1);
+            matriu[poss.first][poss.second-1].tanca_porta(1);
         }
 
   }
@@ -167,15 +169,34 @@ using namespace std;
   // el laberint seguirà l'exposat a l'apartat 2.3.
   void laberint::print(std::ostream & os) const throw(){
         int cont = ((columnes*3)-(columnes-1));
-        //os<< string(cont, '*') <<endl;
-        //string.Concat(Enumerable.Repeat("*", 4));
-        for(int i=0; i<files; i++){
-            os<<"*"/*<<endl*/;
-            
-            for(int j=0; j< files; j++){
-                if(matriu[i][j].porta_oberta(0));
+        int i=0;
+        cout<<files<<" "<<columnes<<endl;
+        while(i<files){
+            for(int j=0; j<columnes; j++){
+                cambra c=matriu[i][j];
+                cout<<"*";
+                if(c.porta_oberta(0)){
+                    cout<<" ";
+                }
+                else{
+                    cout<<"*";
+                }
+            }
+            cout<<"*"<<endl<<"* ";
+            for(int j=0; j<columnes; j++){
+                cambra c=matriu[i][j];
+                
+                if(c.porta_oberta(1)){
+                    cout<<" ";
+                }
+                else{
+                    cout<<"*";
+                }
                 cout<<" ";
             }
-            os<<endl;
+            cout<<endl;
+            i++;
         }
+        os<< string(cont, '*') <<endl;
+        
   }
