@@ -25,7 +25,20 @@ using namespace std;
   // El format de l'istream seguirà l'exposat a l'apartat 2.3. Es presuposa que
   // el laberint és correcte.
    laberint::laberint(std::istream & is) throw(error){
-       
+       int num_files;
+       int num_columnes;
+       is>> num_files;
+       is>>num_columnes;
+       //vol llegir un laberint de l'entrada i guardar-lo
+       //mirar si la porta està amb un ' ' i guardar-ho com a porta oberta
+    /*int* laberint_entrada= new int[dimension];
+       std::string laberint_entrada[]; //array d'strings
+       is>>laberint_entrada[1];
+       if (laberint_entrada[1] == " "){
+           obre_porta;
+       }*/
+
+
    }
 
   // Constructora per còpia, assignació i destructora.

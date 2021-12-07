@@ -38,19 +38,19 @@ using namespace std;
 
   // Retorna si l'habitació té una porta oberta a la paret indicada.
   bool cambra::porta_oberta(paret p) const throw(){
-      if(p==0){
+      if(paret::NORD==p){
         return nord;
     } 
-    if(p==1){
+    if(paret::EST==p){
         return est;
     }  
-    if(p==2){
+    if(paret::SUD==p){
         return sud;
     }
-    if(p==3){
+    if(paret::OEST==p){
         return oest;
     }
-    /*if(p==4){
+    /*if(paret::NO_DIR==p){
         //throw->error(20);
     }*/
   }
@@ -58,19 +58,19 @@ using namespace std;
   // Obre una nova porta a la paret indicada. Si la porta ja està oberta no
   // fa res. Es produeix un error si la paret és NO_DIR.
   void cambra::obre_porta(paret p) throw(error){
-    if(p==0){
+    if(paret::NORD==p){
         nord=true;
     } 
-    if(p==1){
+    if(paret::EST==p){
         est=true;
     }  
-    if(p==2){
+    if(paret::SUD==p){
         sud=true;
     }
-    if(p==3){
+    if(paret::OEST==p){
         oest=true;
     }
-    if(p==4){
+    if(paret::NO_DIR==p){
         throw error(ParetInexistent);
     }
   }
@@ -78,19 +78,19 @@ using namespace std;
   // Tanca la porta a la paret indicada. Si la porta ja estava tancada no
   // fa res. Es produeix un error si la paret és NO_DIR.
   void cambra::tanca_porta(paret p) throw(error){
-    if(p==0){
+    if(paret::NORD==p){
         nord=false;
     } 
-    if(p==1){
+    if(paret::EST==p){
         est=false;
     }  
-    if(p==2){
+    if(paret::SUD==p){
         sud=false;
     }
-    if(p==3){
+    if(paret::OEST==p){
         oest=false;
     }
-    if(p==4){
+    if(paret::NO_DIR==p){
         throw error(ParetInexistent);
     }
   }
