@@ -150,28 +150,28 @@ using namespace std;
       }
       else if(n==b){
           if(nord!=c.porta_oberta(0)){
-              if(nord==true){
+              if(nord==false){
                   return true;
               }
               else return false;
               
           }
           if(est!=c.porta_oberta(1)){
-              if(est==true){
+              if(est==false){
                   return true;
               }
               else return false;
               
           }
           if(sud!=c.porta_oberta(2)){
-              if(sud==true){
+              if(sud==false){
                   return true;
               }
               else return false;
               
           }
           if(oest!=c.porta_oberta(3)){
-              if(oest==true){
+              if(oest==false){
                   return true;
               }
               else return false;

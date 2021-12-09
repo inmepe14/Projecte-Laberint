@@ -1,6 +1,6 @@
 #include "laberint.hpp"
 #include <iostream>
-#include <iomanip>
+#include <sstream>
 #include <string>
 
 using namespace std;
@@ -25,10 +25,71 @@ using namespace std;
   // El format de l'istream seguirà l'exposat a l'apartat 2.3. Es presuposa que
   // el laberint és correcte.
    laberint::laberint(std::istream & is) throw(error){
-       int num_files;
-       int num_columnes;
-       is>> num_files;
-       is>>num_columnes;
+    int num_files;
+    int num_columnes;
+    string linia;
+    getline(is, linia);
+    //is>>num_files;
+    istringstream ss(linia);
+    ss>>num_files;
+    ss>>num_columnes;
+    files=num_files;
+    columnes=num_columnes;
+    
+    matriu = new cambra*[files];
+    for (int i = 0; i < files; i++) {
+        matriu[i] = new cambra[columnes];
+    }
+    char caracter;
+    //har caracter[2];
+    //caracter= ' ';
+    int i=0;
+    while (getline(is, linia)) {
+        
+        istringstream ss(linia);
+        int n;
+        while (ss >> caracter) {
+            if(caracter == ' ') cout<<"ei";
+            cout<<caracter;
+        }
+        cout<<endl;
+    }
+    //init lab_unic laberint ./laberint_3x3.txt
+    /*while(i<files){
+        getline(is, linia);
+        istringstream ss(linia);
+        for(int j=0; j<columnes; j++){
+            ss >> caracter;
+            ss >> caracter; //llegir la paret nord
+            cout<<caracter<<j<<" 1"<<endl;
+            ss >> caracter;
+            cout<<caracter<<j<<endl;
+            ss >> caracter;
+            cout<<caracter<<j<<endl;
+            cambra c=matriu[i][j];
+            if(caracter==' '){
+                c.obre_porta(paret::NORD);
+                cout<<"eii"<<endl;
+            }
+            
+            }
+            ss>> caracter;
+            //endl
+            getline(is, linia);
+            ss>> caracter;
+            ss>> caracter;
+            for(int j=0; j<columnes; j++){
+                cambra c=matriu[i][j];
+                ss>> caracter;
+                if(caracter==' '){          //es pot mirar d'estalviar una iteració
+                    c.obre_porta(paret::EST); 
+                    cout<<"ei"<<endl;
+                }  
+            }
+            i++;
+            }
+            getline(is, linia);            
+*/  
        //vol llegir un laberint de l'entrada i guardar-lo
        //mirar si la porta està amb un ' ' i guardar-ho com a porta oberta
     /*int* laberint_entrada= new int[dimension];
@@ -37,9 +98,9 @@ using namespace std;
        if (laberint_entrada[1] == " "){
            obre_porta;
        }*/
-
-
-   }
+        }
+       
+    
 
   // Constructora per còpia, assignació i destructora.
   laberint::laberint(const laberint & l) throw(error){
@@ -181,6 +242,7 @@ using namespace std;
   // Escriu el laberint a l'ostream (canal de sortida) os. El format per escriure
   // el laberint seguirà l'exposat a l'apartat 2.3.
   void laberint::print(std::ostream & os) const throw(){
+      //pre: el laberint es correcte
         int cont = ((columnes*3)-(columnes-1));
         int i=0;
         cout<<files<<" "<<columnes<<endl;
@@ -198,14 +260,13 @@ using namespace std;
             cout<<"*"<<endl<<"* ";
             for(int j=0; j<columnes; j++){
                 cambra c=matriu[i][j];
-                
+                if(j!=0) cout<<" ";
                 if(c.porta_oberta(1)){
                     cout<<" ";
                 }
                 else{
                     cout<<"*";
-                }
-                cout<<" ";
+                } 
             }
             cout<<endl;
             i++;
