@@ -28,68 +28,67 @@ using namespace std;
     int num_files;
     int num_columnes;
     string linia;
-    getline(is, linia);
+    /*getline(is, linia);
     //is>>num_files;
     istringstream ss(linia);
     ss>>num_files;
-    ss>>num_columnes;
+    ss>>num_columnes;*/
+    is>>num_files;
+    is>>num_columnes;
     files=num_files;
     columnes=num_columnes;
-    
+    //is.get(caracter);
     matriu = new cambra*[files];
     for (int i = 0; i < files; i++) {
         matriu[i] = new cambra[columnes];
     }
-    char caracter;
-    //har caracter[2];
-    //caracter= ' ';
-    int i=0;
-    while (getline(is, linia)) {
-        
-        istringstream ss(linia);
-        int n;
-        while (ss >> caracter) {
-            if(caracter == ' ') cout<<"ei";
-            cout<<caracter;
-        }
-        cout<<endl;
-    }
+    
     //init lab_unic laberint ./laberint_3x3.txt
-    /*while(i<files){
-        getline(is, linia);
-        istringstream ss(linia);
+    int i=0;
+    char caracter;
+    while(i<files){
+        cout<<"fila nord0";
         for(int j=0; j<columnes; j++){
-            ss >> caracter;
-            ss >> caracter; //llegir la paret nord
-            cout<<caracter<<j<<" 1"<<endl;
-            ss >> caracter;
-            cout<<caracter<<j<<endl;
-            ss >> caracter;
-            cout<<caracter<<j<<endl;
-            cambra c=matriu[i][j];
+            is.get(caracter);
+            cout<<caracter;
+            is.get(caracter); //llegir la paret nord
+            //cambra c=matriu[i][j];
+            cout<<caracter;
             if(caracter==' '){
-                c.obre_porta(paret::NORD);
-                cout<<"eii"<<endl;
+                matriu[i][j].obre_porta(paret::NORD);
+                //cout<<"eii"<<endl;
             }
-            
             }
-            ss>> caracter;
+            is.get(caracter);
+            cout<<caracter;
+            is.get(caracter);
+            cout<<caracter;
             //endl
-            getline(is, linia);
-            ss>> caracter;
-            ss>> caracter;
+            /*is.get(caracter);
+            cout<<"salt de linia"<<caracter;*/
+            //is.get(caracter);
+            cout<<"fila est";
             for(int j=0; j<columnes; j++){
-                cambra c=matriu[i][j];
-                ss>> caracter;
+                //cambra c=matriu[i][j];
+                cout<<"i"<<endl;
+                is.get(caracter);
+                cout<<caracter;
+                is.get(caracter);
+                cout<<caracter;
                 if(caracter==' '){          //es pot mirar d'estalviar una iteració
-                    c.obre_porta(paret::EST); 
-                    cout<<"ei"<<endl;
-                }  
+                    matriu[i][j].obre_porta(paret::EST); 
+                    //cout<<"ei"<<endl;
+                }
+                //https://limnu.com/d/draw.html?nu=1&b=B_vqFdLOPRxtORVJ&
+                /*is.get(caracter);
+                cout<<caracter;*/
+
             }
+            is.get(caracter);
+            cout<<caracter;
             i++;
             }
-            getline(is, linia);            
-*/  
+            //getline(is, linia);            
        //vol llegir un laberint de l'entrada i guardar-lo
        //mirar si la porta està amb un ' ' i guardar-ho com a porta oberta
     /*int* laberint_entrada= new int[dimension];
@@ -120,9 +119,14 @@ using namespace std;
         }
   }
   laberint & laberint::operator=(const laberint & l) throw(error){
+        /*laberint lab = l;
+        files= lab.num_files();
+        columnes = lab.num_columnes();
+        */
         files = l.num_files();
         columnes = l.num_columnes();
         matriu = new cambra*[files];
+        //posar una matriu auxiliar i al final destruirh
         for (int i = 0; i < files; i++) {
             matriu[i] = new cambra[columnes];
         }
