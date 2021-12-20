@@ -1,0 +1,25 @@
+nat MAX;
+nat num;
+nat num_grups;
+//template <typename T>
+struct node{
+    node *f_esq;
+    node *f_dret; //aixo pel bst
+    int altura;
+    T clau;
+
+    node *repr;
+    bool es_arrel;
+    nat pes;
+    
+};
+node* _arrel;
+
+static int altura(node *N);
+static int max(int a, int b);
+static node* newnode(int clau);
+static node* f_dretRotate(node *y);
+static node* f_esqRotate(node* x);
+static node* insert(node* node, T clau);
+static int getBalance(node *N);
+static node* busca(node* n, const T &k);

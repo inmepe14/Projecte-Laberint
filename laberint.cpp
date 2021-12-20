@@ -28,11 +28,6 @@ using namespace std;
     int num_files;
     int num_columnes;
     string linia;
-    /*getline(is, linia);
-    //is>>num_files;
-    istringstream ss(linia);
-    ss>>num_files;
-    ss>>num_columnes;*/
     is>>num_files;
     is>>num_columnes;
     files=num_files;
@@ -44,59 +39,46 @@ using namespace std;
     }
     
     //init lab_unic laberint ./laberint_3x3.txt
+    
     int i=0;
     char caracter;
+    is.get(caracter); //endl del 3 3
+    /*for(int i=0; i< (8*7); ++i){
+        is.get(caracter);
+        cout<<caracter;
+    }*/
+     //primera fila, sempre tancada
+    getline(is, linia);
     while(i<files){
-        cout<<"fila nord0";
-        for(int j=0; j<columnes; j++){
+        is.get(caracter);
+        is.get(caracter);
+        for(int j=0; j<(columnes-1); j++){
             is.get(caracter);
-            cout<<caracter;
-            is.get(caracter); //llegir la paret nord
-            //cambra c=matriu[i][j];
-            cout<<caracter;
             if(caracter==' '){
-                matriu[i][j].obre_porta(paret::NORD);
-                //cout<<"eii"<<endl;
-            }
+                matriu[i][j].obre_porta(paret::EST);
+                //cout<<i<<j<<endl;
             }
             is.get(caracter);
-            cout<<caracter;
+        }
+        
+        is.get(caracter);
+        is.get(caracter); //llegir endl
+        for(int j=0; j<columnes; j++){
+            
             is.get(caracter);
-            cout<<caracter;
-            //endl
-            /*is.get(caracter);
-            cout<<"salt de linia"<<caracter;*/
-            //is.get(caracter);
-            cout<<"fila est";
-            for(int j=0; j<columnes; j++){
-                //cambra c=matriu[i][j];
-                cout<<"i"<<endl;
-                is.get(caracter);
-                cout<<caracter;
-                is.get(caracter);
-                cout<<caracter;
-                if(caracter==' '){          //es pot mirar d'estalviar una iteració
-                    matriu[i][j].obre_porta(paret::EST); 
-                    //cout<<"ei"<<endl;
-                }
+            //cout<<caracter;
+            is.get(caracter);
+            if(caracter==' '){
+                matriu[i+1][j].obre_porta(paret::NORD);
+                //cout<<i<<j<<caracter<<endl;
+            }
+        }
+        is.get(caracter);
+        is.get(caracter);
+        ++i;
+    }
+    
                 //https://limnu.com/d/draw.html?nu=1&b=B_vqFdLOPRxtORVJ&
-                /*is.get(caracter);
-                cout<<caracter;*/
-
-            }
-            is.get(caracter);
-            cout<<caracter;
-            i++;
-            }
-            //getline(is, linia);            
-       //vol llegir un laberint de l'entrada i guardar-lo
-       //mirar si la porta està amb un ' ' i guardar-ho com a porta oberta
-    /*int* laberint_entrada= new int[dimension];
-       std::string laberint_entrada[]; //array d'strings
-       is>>laberint_entrada[1];
-       if (laberint_entrada[1] == " "){
-           obre_porta;
-       }*/
         }
        
     
@@ -113,7 +95,7 @@ using namespace std;
 
         for(int i=0; i<files; i++){
             for(int j=0; j<columnes; j++){
-                pair<int,int> pos=make_pair(i,j);
+                pair<int,int> pos=make_pair(i+1,j+1);
                 matriu[i][j]=l(pos);
             }
         }
@@ -133,7 +115,7 @@ using namespace std;
 
         for(int i=0; i<files; i++){
             for(int j=0; j<columnes; j++){
-                pair<int,int> pos=make_pair(i,j);
+                pair<int,int> pos=make_pair(i+1,j+1);
                 matriu[i][j]=l(pos);
             }
         }
@@ -168,7 +150,7 @@ using namespace std;
             throw error(PosicioInexistent);
         }
 
-      return matriu[pos.first][pos.second];
+      return matriu[pos.first-1][pos.second-1];
   }
 
   // Obre la porta en la paret donada de la cambra que està especificada per pos.
@@ -199,17 +181,17 @@ using namespace std;
         matriu[poss.first][poss.second].obre_porta(p);
 
 
-        if(p==0){       //si es nord, hem d'obrir la posició amb la fila-1 el sud
-            matriu[poss.first-1][poss.second].obre_porta(2);
+        if(p==paret::NORD){       //si es nord, hem d'obrir la posició amb la fila-1 el sud
+            matriu[poss.first-1][poss.second].obre_porta(paret::SUD);
         }
-        if(p==2){       //si es sud, hem d'obrir la posició amb la fila+1  el nord
-            matriu[poss.first+1][poss.second].obre_porta(0);
+        if(p==paret::SUD){       //si es sud, hem d'obrir la posició amb la fila+1  el nord
+            matriu[poss.first+1][poss.second].obre_porta(paret::NORD);
         }
-        if(p==1){       //si es est, hem d'obrir la posició amb la fila-1 el oest
-            matriu[poss.first][poss.second+1].obre_porta(3);
+        if(p==paret::EST){       //si es est, hem d'obrir la posició amb la fila-1 el oest
+            matriu[poss.first][poss.second+1].obre_porta(paret::OEST);
         }
-        if(p==3){       //si es oest, hem d'obrir la posició amb la fila-1 el est
-            matriu[poss.first][poss.second-1].obre_porta(1);
+        if(p==paret::OEST){       //si es oest, hem d'obrir la posició amb la fila-1 el est
+            matriu[poss.first][poss.second-1].obre_porta(paret::EST);
         }
         
   }
@@ -226,19 +208,21 @@ using namespace std;
             throw error(PosicioInexistent);
         }
          pair<int,int> poss = make_pair(pos.first-1, pos.second-1);
+        if(matriu[poss.first][poss.second].porta_oberta(p)){
          matriu[poss.first][poss.second].tanca_porta(p);
 
-        if(p==0){       //si es nord, hem de tancar la posició amb la fila-1 el sud
-            matriu[poss.first-1][poss.second].tanca_porta(2);
+        if(p==paret::NORD){       //si es nord, hem de tancar la posició amb la fila-1 el sud
+             matriu[poss.first-1][poss.second].tanca_porta(paret::SUD);
         }
-        if(p==2){       //si es sud, hem de tancar la posició amb la fila+1  el nord
-            matriu[poss.first+1][poss.second].tanca_porta(0);
+        if(p==paret::SUD){       //si es sud, hem de tancar la posició amb la fila+1  el nord
+             matriu[poss.first+1][poss.second].tanca_porta(paret::NORD);
         }
-        if(p==1){       //si es nord, hem de tancar la posició amb la fila-1 el sud
-            matriu[poss.first][poss.second+1].tanca_porta(3);
+        if(p==paret::OEST){       //si es oest, hem de tancar la posició amb la columna-1 el est
+             matriu[poss.first][poss.second-1].tanca_porta(paret::EST);
         }
-        if(p==3){       //si es nord, hem de tancar la posició amb la fila-1 el sud
-            matriu[poss.first][poss.second-1].tanca_porta(1);
+        if(p==paret::EST){       //si es est, hem de tancar la posició amb la columna+1 el oest
+             matriu[poss.first][poss.second+1].tanca_porta(paret::OEST);
+        }
         }
 
   }
@@ -249,32 +233,33 @@ using namespace std;
       //pre: el laberint es correcte
         int cont = ((columnes*3)-(columnes-1));
         int i=0;
-        cout<<files<<" "<<columnes<<endl;
+        os<<files<<" "<<columnes<<endl;
         while(i<files){
             for(int j=0; j<columnes; j++){
                 cambra c=matriu[i][j];
-                cout<<"*";
+                os<<"*";
                 if(c.porta_oberta(0)){
-                    cout<<" ";
+                    os<<" ";
                 }
                 else{
-                    cout<<"*";
+                    os<<"*";
                 }
             }
-            cout<<"*"<<endl<<"* ";
+            os<<"*"<<endl<<"* ";
             for(int j=0; j<columnes; j++){
                 cambra c=matriu[i][j];
-                if(j!=0) cout<<" ";
+                if(j!=0) os<<" ";
                 if(c.porta_oberta(1)){
-                    cout<<" ";
+                    os<<" ";
                 }
                 else{
-                    cout<<"*";
+                    os<<"*";
                 } 
             }
-            cout<<endl;
+            os<<endl;
             i++;
         }
         os<< string(cont, '*') <<endl;
         
   }
+  
