@@ -1,5 +1,6 @@
 #include "particio.hpp"
-
+#include <iostream>
+using namespace std;
  // Construeix una particio amb n elements com a màxim.
   template <typename T>
   particio<T>::particio(nat n) throw(error){
@@ -30,13 +31,15 @@
   template <typename T>
   void particio<T>::afegir(const T &x) throw(error){
       //si no està l'afegeixes on toca i representant ell mateix
-      if(num==MAX) throw(ParticioPlena);
-      else{
-        insert(_arrel, x);
+        bool aug=false;
+        _arrel=insert(_arrel, x, aug);
         //augmentar si cal el numero de grups i elements
-        num+=1;
-        num_grups+=1;
-      }
+        if(aug){
+            if(num_elements()>=num_maxim()) throw error(ParticioPlena);
+            num+=1;
+            num_grups+=1;
+        }
+      
   }
 
   // Uneix els dos grups als quals pertanyen aquests dos elements. Si tots dos
@@ -47,7 +50,28 @@
       //buscar els dos membres
       node* nx=busca(_arrel,x);
       node* ny=busca(_arrel,y);
-      if(nx or ny == NULL) throw(ElemInexistent);
+      if(nx==NULL or ny==NULL) throw(ElemInexistent);
+      else{
+          while(nx->es_arrel != true){
+              nx=nx->repr;
+          }
+          while(ny->es_arrel != true){
+              ny=ny->repr;
+          }
+          if(nx!=ny){
+              if(ny->pes>nx->pes){
+                  nx->repr=ny;
+                  nx->es_arrel=false;
+                  ny->pes=ny->pes+nx->pes;
+              }
+              else if(ny->pes>=nx->pes){
+                  ny->repr=nx;
+                  ny->es_arrel=false;
+                  nx->pes=ny->pes+nx->pes;
+              }
+              num_grups--;
+          }
+      }
   }
 
   // Retorna si els elements x i y pertanyen al mateix grup.
@@ -56,12 +80,12 @@
   bool particio<T>::mateix_grup(const T & x, const T & y) const throw(error){
       node* nx=busca(_arrel, x);
       node* ny=busca(_arrel, y);
-      if(nx or ny == NULL) throw(ElemInexistent);
+      if(nx== NULL or ny == NULL) throw(ElemInexistent);
       else{
-          while(nx->repr->es_arrel != true){
+          while(nx->es_arrel != true){
               nx=nx->repr;
           }
-          while(ny->repr->es_arrel != true){
+          while(ny->es_arrel != true){
               ny=ny->repr;
           }
           if(nx == ny){
@@ -70,7 +94,7 @@
           else{
               return false;
           }
-      } 
+      }
   }
 
   // Retorna el número de grups que té la particio.
@@ -161,17 +185,24 @@
     };
 
     template <typename T>
-    typename particio<T>::node* particio<T>::insert(node* node, T clau)
+    typename particio<T>::node* particio<T>::insert(node* node, T clau, bool &aug)
     {
         if (node == NULL){
-            return(newnode(clau));
+            aug=true;
+            return(newnode(clau));  
         }
-        if (clau < node->clau)
-            node->f_esq = insert(node->f_esq, clau);
-        else if (clau > node->clau)
-            node->f_dret = insert(node->f_dret, clau);
-        else // Si ja està al BST no fa res
+        if (clau < node->clau){
+            //cout<<"ins esq";
+            node->f_esq = insert(node->f_esq, clau, aug);
+        }
+        else if (clau > node->clau){
+            //cout<<"ins dret";
+            node->f_dret = insert(node->f_dret, clau, aug);
+        }
+        else if(clau == node->clau){// Si ja està al BST no fa res
+            //cout<<"ei"<<endl;
             return node;
+        }
     
 
         node->altura = 1 + max(altura(node->f_esq),
