@@ -11,11 +11,13 @@ namespace check {
 			     const laberint& L,
 			     const list<posicio>& cami_candidat) 
     throw(error) {
-    
+    cout<<ini.first<<final.first<<L.num_files()<<cami_candidat.size();
     return false;
   }
   
   bool comprova_perfecte(const laberint& L) {
+    cout<<L.num_files();
     return false;
+    
   }
 };

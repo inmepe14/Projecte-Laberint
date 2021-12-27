@@ -14,7 +14,7 @@ using namespace std;
         files = num_fil;
         columnes = num_col;
         matriu = new cambra*[files];
-        for (int i = 0; i < files; i++) {
+        for (nat i = 0; i < files; i++) {
             matriu[i] = new cambra[columnes];
         }
     
@@ -34,13 +34,13 @@ using namespace std;
     columnes=num_columnes;
     //is.get(caracter);
     matriu = new cambra*[files];
-    for (int i = 0; i < files; i++) {
+    for (nat i = 0; i < files; i++) {
         matriu[i] = new cambra[columnes];
     }
     
     //init lab_unic laberint ./laberint_3x3.txt
     
-    int i=0;
+    nat i=0;
     char caracter;
     is.get(caracter); //endl del 3 3
     /*for(int i=0; i< (8*7); ++i){
@@ -52,7 +52,7 @@ using namespace std;
     while(i<files){
         is.get(caracter);
         is.get(caracter);
-        for(int j=0; j<(columnes-1); j++){
+        for(nat j=0; j<(columnes-1); j++){
             is.get(caracter);
             if(caracter==' '){
                 matriu[i][j].obre_porta(paret::EST);
@@ -63,7 +63,7 @@ using namespace std;
         
         is.get(caracter);
         is.get(caracter); //llegir endl
-        for(int j=0; j<columnes; j++){
+        for(nat j=0; j<columnes; j++){
             
             is.get(caracter);
             //cout<<caracter;
@@ -89,13 +89,13 @@ using namespace std;
         files = l.num_files();
         columnes = l.num_columnes();
         matriu = new cambra*[files];
-        for (int i = 0; i < files; i++) {
+        for (nat i = 0; i < files; i++) {
             matriu[i] = new cambra[columnes];
         }
 
-        for(int i=0; i<files; i++){
-            for(int j=0; j<columnes; j++){
-                pair<int,int> pos=make_pair(i+1,j+1);
+        for(nat i=0; i<files; i++){
+            for(nat j=0; j<columnes; j++){
+                pair<nat,nat> pos=make_pair(i+1,j+1);
                 matriu[i][j]=l(pos);
             }
         }
@@ -105,24 +105,28 @@ using namespace std;
         files= lab.num_files();
         columnes = lab.num_columnes();
         */
+        /*if(this != &l){
+            laberint aux= laberint(l);
+            matriu=aux.matriu;*/
         files = l.num_files();
         columnes = l.num_columnes();
         matriu = new cambra*[files];
         //posar una matriu auxiliar i al final destruirh
-        for (int i = 0; i < files; i++) {
+        for (nat i = 0; i < files; i++) {
             matriu[i] = new cambra[columnes];
         }
 
-        for(int i=0; i<files; i++){
-            for(int j=0; j<columnes; j++){
-                pair<int,int> pos=make_pair(i+1,j+1);
+        for(nat i=0; i<files; i++){
+            for(nat j=0; j<columnes; j++){
+                pair<nat,nat> pos=make_pair(i+1,j+1);
                 matriu[i][j]=l(pos);
             }
         }
+        //}
         return *this;
   }
   laberint::~laberint() throw(){
-      for (int i = 0; i < files; i++) {
+      for (nat i = 0; i < files; i++) {
             delete [] matriu[i];
         }
         delete [] matriu;
@@ -164,7 +168,7 @@ using namespace std;
         if (pos.second <= 0 || pos.second > columnes) {
             throw error(PosicioInexistent);
         }
-        pair<int,int> poss = make_pair(pos.first-1, pos.second-1);
+        pair<nat,nat> poss = make_pair(pos.first-1, pos.second-1);
         if(p==0 and poss.first==0){  //cas exterior pel nord
             throw error(PortaExterior);
         }
@@ -207,7 +211,7 @@ using namespace std;
         if (pos.second <= 0 || pos.second > columnes) {
             throw error(PosicioInexistent);
         }
-         pair<int,int> poss = make_pair(pos.first-1, pos.second-1);
+         pair<nat,nat> poss = make_pair(pos.first-1, pos.second-1);
         if(matriu[poss.first][poss.second].porta_oberta(p)){
          matriu[poss.first][poss.second].tanca_porta(p);
 
@@ -232,10 +236,10 @@ using namespace std;
   void laberint::print(std::ostream & os) const throw(){
       //pre: el laberint es correcte
         int cont = ((columnes*3)-(columnes-1));
-        int i=0;
+        nat i=0;
         os<<files<<" "<<columnes<<endl;
         while(i<files){
-            for(int j=0; j<columnes; j++){
+            for(nat j=0; j<columnes; j++){
                 cambra c=matriu[i][j];
                 os<<"*";
                 if(c.porta_oberta(0)){
@@ -246,7 +250,7 @@ using namespace std;
                 }
             }
             os<<"*"<<endl<<"* ";
-            for(int j=0; j<columnes; j++){
+            for(nat j=0; j<columnes; j++){
                 cambra c=matriu[i][j];
                 if(j!=0) os<<" ";
                 if(c.porta_oberta(1)){

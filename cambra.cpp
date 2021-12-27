@@ -38,21 +38,24 @@ using namespace std;
 
   // Retorna si l'habitació té una porta oberta a la paret indicada.
   bool cambra::porta_oberta(paret p) const throw(){
-      if(paret::NORD==p){
+    //bool ret;
+    if(paret::NORD==p){
         return nord;
     } 
-    if(paret::EST==p){
+    else if(paret::EST==p){
         return est;
     }  
-    if(paret::SUD==p){
+    else if(paret::SUD==p){
         return sud;
     }
-    if(paret::OEST==p){
+    else if(paret::OEST==p){
         return oest;
     }
+    //else return false;
     /*if(paret::NO_DIR==p){
         //throw->error(20);
     }*/
+    return false;
   }
 
   // Obre una nova porta a la paret indicada. Si la porta ja està oberta no
@@ -121,6 +124,7 @@ using namespace std;
       int n=0;
       int b=0;
       int p=0;
+      //bool ret;
       if(nord==true){
           n++;
       }
@@ -148,7 +152,7 @@ using namespace std;
       else if(n>b){
           return false;
       }
-      else if(n==b){
+      else {
           if(nord!=c.porta_oberta(0)){
               if(nord==false){
                   return true;
@@ -177,8 +181,8 @@ using namespace std;
               else return false;
               
           }
-      }
-
+        }
+        return false;
   }
 
   // Gestió d'errors.

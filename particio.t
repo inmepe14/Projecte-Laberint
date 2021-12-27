@@ -13,15 +13,29 @@ using namespace std;
   // Constructora per còpia, assignació i destructora.
   template <typename T>
   particio<T>::particio(const particio & p) throw(error){
-
+      _arrel=copia_nodes(p._arrel);
+      MAX=p.MAX;
+      num=p.num;
+      num_grups=p.num_grups;
+      
   }
   template <typename T>
   particio<T> & particio<T>::operator=(const particio & p) throw(error){
-      return *this;
-  }
+      if (this != &p) {
+        node* aux;
+        aux = copia_nodes(p._arrel);
+        esborra_nodes(_arrel);
+        _arrel = aux;
+        MAX=p.MAX;
+        num=p.num;
+        num_grups=p.num_grups;
+    }
+    return (*this);
+    }
+  
   template <typename T>
   particio<T>::~particio() throw(){
-
+      esborra_nodes(_arrel);
   }
 
   // Afegeix un nou element a la particio. Aquest nou element formarà ell sol
@@ -50,7 +64,8 @@ using namespace std;
       //buscar els dos membres
       node* nx=busca(_arrel,x);
       node* ny=busca(_arrel,y);
-      if(nx==NULL or ny==NULL) throw(ElemInexistent);
+      if(nx==NULL or ny==NULL) throw error(ElemInexistent);
+      
       else{
           while(nx->es_arrel != true){
               nx=nx->repr;
@@ -80,7 +95,7 @@ using namespace std;
   bool particio<T>::mateix_grup(const T & x, const T & y) const throw(error){
       node* nx=busca(_arrel, x);
       node* ny=busca(_arrel, y);
-      if(nx== NULL or ny == NULL) throw(ElemInexistent);
+      if(nx== NULL or ny == NULL) throw error(ElemInexistent);
       else{
           while(nx->es_arrel != true){
               nx=nx->repr;
@@ -100,7 +115,10 @@ using namespace std;
   // Retorna el número de grups que té la particio.
   template <typename T>
   nat particio<T>::size() const throw(){
+      print(_arrel);
+      cout<<endl;
       return num_grups;
+      
   }
 
   // Retorna el número d'elements que té la particio.
@@ -115,7 +133,46 @@ using namespace std;
     return MAX;
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////
   //ESPECIFICACIÓ METODES PRIVATS
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    void particio<T>::esborra_nodes(node* m){
+        if (m != NULL) {
+        esborra_nodes(m->f_esq);
+        esborra_nodes(m->f_dret);
+        delete m;
+    }
+    };
+    
+    
+    template <typename T>
+    typename particio<T>::node* particio<T>::copia_nodes(node* m){
+    /* Pre: cert */
+    /* Post: si m és NULL, el resultat és NULL; sinó,
+    el resultat apunta al primer node d'un arbre binari
+    de nodes que són còpia de l'arbre apuntat per m */
+    node* n;
+    if (m == NULL) n = NULL;
+    else {
+        n = new node;
+        try {
+        n->altura = m->altura;
+        n->clau = m->clau;
+        n->repr = m->repr;
+        n->es_arrel = m->es_arrel;
+        n->pes = m->pes;
+
+        n->f_esq = copia_nodes(m->f_esq);
+        n->f_dret = copia_nodes(m->f_dret);
+        } catch(...) {
+        delete n;
+        throw;
+        }
+    }
+    return n;
+    };
+
     template <typename T>
     int particio<T>::altura(node *N)
     {
@@ -247,6 +304,7 @@ using namespace std;
     template <typename T>
     typename particio<T>::node* particio<T>::busca(node* n, const T &k){
         if (n == NULL or n->clau == k) {
+        
           return n;
         }
         else {
@@ -256,5 +314,15 @@ using namespace std;
           else { // k > p->_k
             return busca(n->f_dret, k);
           }
+        }
+    }
+
+    template <typename T>
+    void particio<T>::print(node *n){
+        if(n!=NULL){
+        print(n->f_esq);
+        cout<<n->clau<<" "<<n->repr->clau<<"   ";
+        print(n->f_dret);
+        
         }
     }

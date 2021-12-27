@@ -23,3 +23,7 @@ static node* f_esqRotate(node* x);
 static node* insert(node* node, T clau, bool &aug);
 static int getBalance(node *N);
 static node* busca(node* n, const T &k);
+static node* copia_nodes(node* m);
+static void esborra_nodes(node* m);
+
+static void print(node* n);

@@ -4,5 +4,6 @@
   // si i només si alguna de les seves cambres té alguna porta oberta.
   // Es produeix un error si el laberint ja està excavat.
   void dedalus::construir(laberint & M) throw(error){
-
+    nat k= M.num_files();
+    k++;
   }

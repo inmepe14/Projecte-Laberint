@@ -12,5 +12,8 @@
   void teseus::buscar(const laberint & M, 
               const posicio & inici, const posicio & final, 
               std::list<posicio> & L) throw(error){
-                  
+                  nat k=M.num_files();
+                  k+=inici.first;
+                  k+=final.first;
+                  L.push_front(inici);
               }
