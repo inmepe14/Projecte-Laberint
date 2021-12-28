@@ -55,7 +55,7 @@ using namespace std;
         }
       
   }
-
+    //e
   // Uneix els dos grups als quals pertanyen aquests dos elements. Si tots dos
   // elements ja pertanyien al mateix grup no fa res.
   // Es produeix un error si algun dels elements no pertany a la partició.
