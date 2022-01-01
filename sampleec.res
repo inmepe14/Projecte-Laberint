@@ -48,6 +48,7 @@ Error::particio<T>:41:Particio plena.
 #p9 afegir 15
 ###! Intentem inserir element repetit
 #p9 afegir 5
+Error::particio<T>:41:Particio plena.
 ###! Intentem inserir element sobrepassant maxim
 #p9 afegir 1
 Error::particio<T>:41:Particio plena.
@@ -58,15 +59,19 @@ Error::particio<T>:41:Particio plena.
 ###!---------------------------------------------------------------------
 ###!
 #p0 size
+
 0
 ##0
 #p1 size
+3 3   
 1
 ##1
 #p2 size
+3 3   7 7   
 2
 ##2
 #p9 size
+2 2   3 3   4 4   5 5   9 9   10 10   12 12   15 15   79 79   
 9
 ##9
 ###!
@@ -241,15 +246,19 @@ false
 ###!---------------------------------------------------------------------
 ###!
 #p0 size
+
 0
 ##0
 #p1 size
+3 3   
 1
 ##1
 #p2 size
+3 3   7 3   
 1
 ##1
 #p9 size
+2 2   3 3   4 4   5 9   9 9   10 10   12 3   15 9   79 79   
 6
 ##6
 ###!
@@ -294,44 +303,24 @@ false
 ###!---------------------------------------------------------------------
 ###!
 ###!---------------------------------------------------------------------
-###2.1 Inicialitzacions
-###!---------------------------------------------------------------------
-###!
-#initcopy pp0 = p0
-#initcopy pp1 = p1
-#initcopy pp2 = p2
-#initcopy pp9 = p9
-#p0 destroy
-#p1 destroy
-#p2 destroy
-#p9 destroy
-#init p0 particio<int> 10
-#init p1 particio<int> 10
-#init p2 particio<int> 10
-#init p9 particio<int> 10
-#p0 = pp0
-#p1 = pp1
-#p2 = pp2
-#p9 = pp9
-#pp0 destroy
-#pp1 destroy
-#pp2 destroy
-#pp9 destroy
-###!
 ###!---------------------------------------------------------------------
 ###2.2 Consultora numero blocs sobre copies de particio
 ###!---------------------------------------------------------------------
 ###!
 #p0 size
+
 0
 ##0
 #p1 size
+3 3   
 1
 ##1
 #p2 size
+3 3   7 3   
 1
 ##1
 #p9 size
+2 2   3 3   4 4   5 9   9 9   10 10   12 3   15 9   79 79   
 6
 ##6
 ###!
@@ -474,15 +463,19 @@ true
 ###!---------------------------------------------------------------------
 ###!
 #p0 size
+
 0
 ##0
 #p1 size
+3 3   
 1
 ##1
 #p2 size
+3 3   7 3   
 1
 ##1
 #p9 size
+2 9   3 3   4 2   5 9   9 9   10 10   12 3   15 9   79 79   
 4
 ##4
 ###!

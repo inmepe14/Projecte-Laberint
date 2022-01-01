@@ -14,6 +14,7 @@ using namespace std;
   template <typename T>
   particio<T>::particio(const particio & p) throw(error){
       _arrel=copia_nodes(p._arrel);
+      copia_rep(p._arrel, _arrel, _arrel);
       MAX=p.MAX;
       num=p.num;
       num_grups=p.num_grups;
@@ -22,13 +23,21 @@ using namespace std;
   template <typename T>
   particio<T> & particio<T>::operator=(const particio & p) throw(error){
       if (this != &p) {
-        node* aux;
+        node* aux;node* auxi=p._arrel;
         aux = copia_nodes(p._arrel);
+        
+        copia_rep(auxi, aux, aux);
+        //recorregut que vaigui posant els repr on toca
+        //mires el representant 
+        //si el representant es ell
+        //busques el representant a l'altra partició
+        //enllaces
         esborra_nodes(_arrel);
         _arrel = aux;
         MAX=p.MAX;
         num=p.num;
         num_grups=p.num_grups;
+        //cout<<size()<<endl;
     }
     return (*this);
     }
@@ -46,10 +55,12 @@ using namespace std;
   void particio<T>::afegir(const T &x) throw(error){
       //si no està l'afegeixes on toca i representant ell mateix
         bool aug=false;
+        if(busca(_arrel, x)!=NULL) return;
+        if(num_elements()>=num_maxim()) throw error(ParticioPlena);
         _arrel=insert(_arrel, x, aug);
         //augmentar si cal el numero de grups i elements
         if(aug){
-            if(num_elements()>=num_maxim()) throw error(ParticioPlena);
+            //if(num_elements()>=num_maxim()) throw error(ParticioPlena);
             num+=1;
             num_grups+=1;
         }
@@ -67,6 +78,8 @@ using namespace std;
       if(nx==NULL or ny==NULL) throw error(ElemInexistent);
       
       else{
+          /*node* auxx=nx;
+          node* auxy=ny;*/
           while(nx->es_arrel != true){
               nx=nx->repr;
           }
@@ -74,12 +87,12 @@ using namespace std;
               ny=ny->repr;
           }
           if(nx!=ny){
-              if(ny->pes>nx->pes){
+              if(ny->pes >= nx->pes){
                   nx->repr=ny;
                   nx->es_arrel=false;
                   ny->pes=ny->pes+nx->pes;
               }
-              else if(ny->pes>=nx->pes){
+              else if(ny->pes < nx->pes){
                   ny->repr=nx;
                   ny->es_arrel=false;
                   nx->pes=ny->pes+nx->pes;
@@ -100,7 +113,9 @@ using namespace std;
           while(nx->es_arrel != true){
               nx=nx->repr;
           }
+          
           while(ny->es_arrel != true){
+              
               ny=ny->repr;
           }
           if(nx == ny){
@@ -115,8 +130,8 @@ using namespace std;
   // Retorna el número de grups que té la particio.
   template <typename T>
   nat particio<T>::size() const throw(){
-      print(_arrel);
-      cout<<endl;
+      /*print(_arrel);
+      cout<<endl;*/
       return num_grups;
       
   }
@@ -159,12 +174,11 @@ using namespace std;
         try {
         n->altura = m->altura;
         n->clau = m->clau;
-        n->repr = m->repr;
         n->es_arrel = m->es_arrel;
         n->pes = m->pes;
-
         n->f_esq = copia_nodes(m->f_esq);
         n->f_dret = copia_nodes(m->f_dret);
+        n->repr = n;
         } catch(...) {
         delete n;
         throw;
@@ -172,6 +186,23 @@ using namespace std;
     }
     return n;
     };
+
+    template <typename T>
+   void particio<T>::copia_rep(node* m, node* c, node* arr){
+        if(c!=NULL){
+        if(c->es_arrel == true){
+            c->repr=c; 
+        }
+        else{
+            node *aux=busca(arr,m->repr->clau);
+            c->repr=aux;
+            
+        }
+        copia_rep(m->f_esq, c->f_esq, arr);
+        copia_rep(m->f_dret, c->f_dret, arr);
+        }
+        
+    }  
 
     template <typename T>
     int particio<T>::altura(node *N)
