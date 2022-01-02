@@ -16,7 +16,8 @@ namespace check {
   }
   
   bool comprova_perfecte(const laberint& L) {
-    cout<<L.num_files();
+    //cout<<L.num_files();
+    if(L.num_files() == 4) return false;
     return false;
     
   }

@@ -50,6 +50,7 @@ true
 #l5x5 construir
 dedalus::construir OK
 ##dedalus::construir OK
+print l5x5
 #l5x5 comprova_perfecte
 true
 ##true

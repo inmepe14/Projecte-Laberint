@@ -217,7 +217,7 @@ using namespace std;
         return (a > b)? a : b;
     }
     template <typename T>
-    typename particio<T>::node* particio<T>::newnode(int clau)
+    typename particio<T>::node* particio<T>::newnode(T clau)
     {
         node* n;
         n = new node;
@@ -281,15 +281,18 @@ using namespace std;
         }
         if (clau < node->clau){
             //cout<<"ins esq";
+            //cout<<"ei"<<endl;
             node->f_esq = insert(node->f_esq, clau, aug);
         }
-        else if (clau > node->clau){
-            //cout<<"ins dret";
-            node->f_dret = insert(node->f_dret, clau, aug);
-        }
+        
         else if(clau == node->clau){// Si ja està al BST no fa res
             //cout<<"ei"<<endl;
+            //cout<<"ai"<<endl;
             return node;
+        }
+        else {
+            //cout<<"ins dret";
+            node->f_dret = insert(node->f_dret, clau, aug);
         }
     
 
@@ -304,11 +307,11 @@ using namespace std;
             return f_dretRotate(node);
     
         // Cas f_dret f_dret 
-        if (balance < -1 && clau > node->f_dret->clau)
+        if (balance < -1 && !(clau < node->f_dret->clau) && !(clau == node->f_dret->clau))
             return f_esqRotate(node);
     
         // Cas f_esq f_dret
-        if (balance > 1 && clau > node->f_esq->clau)
+        if (balance > 1 && !(clau < node->f_esq->clau) && !(clau == node->f_esq->clau))
         {
             node->f_esq = f_esqRotate(node->f_esq);
             return f_dretRotate(node);
