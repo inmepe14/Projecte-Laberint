@@ -33,6 +33,8 @@ l3x1 print
 #true
 ##!
 ##!
+l3x11 construir
+l3x11 print
 l3x1 destroy
 l3x11 destroy
 ##!
