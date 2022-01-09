@@ -5,6 +5,7 @@
   // Es produeix un error si el laberint ja està excavat.
   
   void dedalus::construir(laberint & M) throw(error){
+    //int contador = 0;
     pair<bool, int> pa;
     int p;
     particio<pair<nat,nat> > part(M.num_files()*M.num_columnes());
@@ -18,75 +19,67 @@
           p++;
         }
         if(obert) throw error(EstaExcavat);
-        part.afegir(pos/*.first*100+pos.second*/);
+        part.afegir(pos);
     
         }}
         
         nat a, b;
+        int contador=0;
         //bool adjacents = false;
         while(part.size()>1){
-          //adjacents=false;
-          pair<nat,nat> pos1;
-          pair<nat,nat> pos2;
-          bool trobat = false;
-          while(not trobat){
+          //cout<<part.size()<<endl;
+          
+          contador++;
+          //cout<<contador<<endl;
             util::Random R;
             a = R(1,M.num_files());
             b = R(1,M.num_columnes());
-            pos1 = make_pair(a, b);
-            //cout<<a<<" "<<b<<endl;
-            p = R(0,3);
-            //cout<<pos1.first<<pos1.second<<p<<endl;
-            if((pos1.first == 1 and p==paret::NORD) or (pos1.first==M.num_files() and p==paret::SUD)
-                or (pos1.second == 1 and p==paret::OEST) or (pos1.second == M.num_columnes() and p==paret::EST)){
-                  trobat = false;
+            int paret=0;
+            pair<nat,nat> pos1 = make_pair(a,b);
+            pair<nat,nat> pos2;
+            vector<int> v;
+            while(paret<4){
+              if(!M(pos1).porta_oberta(paret))
+              {
+                if(not ((pos1.first == 1 and paret==paret::NORD) or (pos1.first==M.num_files() and paret==paret::SUD)
+                or (pos1.second == 1 and paret==paret::OEST) or (pos1.second == M.num_columnes() and paret==paret::EST))){
+                //pot sortir este valor de p;
+                  v.push_back(paret);
                 }
-            else trobat=true;
-            if(trobat)M.obre_porta(p,pos1);
-            //if(M(pos1).porta_oberta(p)==true) trobat=true;
-          }
-          
-          //cout<<"ei"<<endl;
-          if(p==paret::NORD){
-            pos2 = make_pair(pos1.first-1, pos1.second);
-          }
-          else if(p==paret::SUD){
-            pos2 = make_pair(pos1.first+1, pos1.second);
-          }
-          else if(p==paret::EST){
-            pos2 = make_pair(pos1.first, pos1.second+1);
-          }
-          else if(p==paret::OEST){
-            pos2 = make_pair(pos1.first, pos1.second-1);
-          }
-          
-          //obrir porta random
-          cout<<a<<" "<<b<<" "<<pos2.first<<" "<<pos2.second<<" "<<p<<endl;
-          //cout<<"2 " <<pos2.first*100+pos2.second<<endl;
-          if(!(part.mateix_grup(pos1, pos2))){
-            
-            if(M(pos1).porta_oberta(p)){
-              part.unir(pos1, pos2);
+              }
+              paret++;
+            }
+            if(v.size()!=0){
+              if (v.size()>0){
+                int pi=R(0,v.size()-1);
+                p=v[pi];
+
+              }
+              else if(v.size()==1){
+                p=v[0];
+                
+              }
+            if(!(M(pos1).porta_oberta(p))){ //si la porta està tancada
+              
+                      if(p==paret::NORD){
+                        pos2 = make_pair(pos1.first-1, pos1.second);
+                      }
+                      else if(p==paret::SUD){
+                        pos2 = make_pair(pos1.first+1, pos1.second);
+                      }
+                      else if(p==paret::EST){
+                        pos2 = make_pair(pos1.first, pos1.second+1);
+                      }
+                      else if(p==paret::OEST){
+                        pos2 = make_pair(pos1.first, pos1.second-1);
+                      }
+                  if(!(part.mateix_grup(pos1, pos2))){
+                    part.unir(pos1, pos2);
+                    M.obre_porta(p,pos1);
+                  }
             }
           }
-          cout<<part.size()<<endl;
         }
-      }
-    
-      /*
-      while(num_grups>1)
-      agafar dos numeros aleatoris dins de numfiles, numscolumnes, que siguin adjacents
-      obrir la paret que els uneix
-      unir el grup de la particio
-      */
-
-    
-
-    /*
-    primer mires si ha alguna cambra oberta
-    agafes i fas un particio amb totes les cambres, cada una es la seva representant
-    agafes dos cambres adjacents aleatories que no estiguin a la mateixa partició
-    obres la porta que les uneix i uneixes el grup de les dos cambres
-    fins que totes la cambres estiguin al mateix grup
-    
-    */
+        cout<<contador<<endl;
+  }
+          
