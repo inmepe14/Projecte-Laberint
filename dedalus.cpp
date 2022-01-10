@@ -26,12 +26,13 @@
         nat a, b;
         int contador=0;
         //bool adjacents = false;
+         util::Random R(314159);
         while(part.size()>1){
           //cout<<part.size()<<endl;
           
           contador++;
           //cout<<contador<<endl;
-            util::Random R;
+           
             a = R(1,M.num_files());
             b = R(1,M.num_columnes());
             int paret=0;
